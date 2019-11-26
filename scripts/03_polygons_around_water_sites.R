@@ -50,34 +50,13 @@ sites_spdf2 <- spTransform(sites_spdf1, crs_albers)  # reproject!!
 sites_buf1 <- gBuffer(sites_spdf2, byid = TRUE, width = 500, quadsegs = 2)  # units in meters
 
 object.size(sites_buf1)
-library(spdplyr)
+# library(spdplyr)
 
 
-# test example ------------------------------------------------------------
+# saving shapefiles (for use in GEE) --------------------------------------
 
-library(raster)
-test <- sites_buf1 %>% filter(site_no == "01017058")
-plot(test)
-
-rgdal::writeOGR(obj = test, dsn = "data",  layer="test", driver="ESRI Shapefile")
 rgdal::writeOGR(obj = sites_buf1, dsn = "data",  layer="sites_buf1", driver="ESRI Shapefile")
 
-test_r <- raster::raster("EXTRACTIONS\\01017058\\NLCD\\01017058_NLCD_2011_landcover.tif")
-plot(test_r)
-
-vals <- raster::extract(test_r, test)[[1]] 
-table(vals)
-hist(test_r)
-# -------------------------------------------------------------------------
 
 
-library(FedData)
-
-
-lapply(sites_buf1$site_no, function(x) {
-  get_nlcd(sites_buf1 %>% filter(site_no == x), 
-           label = x,
-           raw.dir = "data/RAW/NLCD",
-  )
-})
 
