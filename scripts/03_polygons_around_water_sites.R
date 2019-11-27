@@ -4,7 +4,8 @@
 
 # scripted started 10/20/19
 
-# For downloading data based on rasters (ie land use classification etc)
+# For making polygons around water measurement sites, to be loaded into
+# google earth engine. 
 
 
 # dependencies ------------------------------------------------------------
@@ -56,7 +57,7 @@ object.size(sites_buf1)
 # saving shapefiles (for use in GEE) --------------------------------------
 
 rgdal::writeOGR(obj = sites_buf1, dsn = "data",  layer="sites_buf1", driver="ESRI Shapefile")
-
+saveRDS(sites_buf1$site_no, "data/site_no_buf1.rds") # seperately saving site no
 
 
 
