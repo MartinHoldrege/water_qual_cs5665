@@ -49,14 +49,16 @@ sites_spdf2 <- spTransform(sites_spdf1, crs_albers)  # reproject!!
 
 # 500 m circle around plots
 sites_buf1 <- gBuffer(sites_spdf2, byid = TRUE, width = 500, quadsegs = 2)  # units in meters
-
+sites_buf2 <- gBuffer(sites_spdf2, byid = TRUE, width = 3000, quadsegs = 2) # bigger buffer
 object.size(sites_buf1)
+object.size(sites_buf2)
 # library(spdplyr)
 
 
 # saving shapefiles (for use in GEE) --------------------------------------
 
 rgdal::writeOGR(obj = sites_buf1, dsn = "data",  layer="sites_buf1", driver="ESRI Shapefile")
+rgdal::writeOGR(obj = sites_buf2, dsn = "data",  layer="sites_buf2", driver="ESRI Shapefile")
 saveRDS(sites_buf1$site_no, "data/site_no_buf1.rds") # seperately saving site no
 
 

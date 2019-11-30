@@ -13,17 +13,18 @@
 # dependencies ------------------------------------------------------------
 
 library(tidyverse)
-
+source("scripts/water_qual_functions.R")
 
 # loading data ------------------------------------------------------------
 
-# land cover
-lc1 <- read_csv("data/sitesBuff1LandCoverData.csv")
+# land cover (from gee)
+lc1 <- read_csv("data/sitesBuff2LandCoverData.csv")
+
 
 head(lc1)
 
 # site locations
-site_no <- readRDS("data/site_no_buf1.rds")
+site_no <- readRDS("data/site_no_buf1.rds") # same site numbers for buff1 and 2
 
 
 
@@ -77,9 +78,9 @@ lc3$site_no <- site_no
 lc3
 
 lc4 <- lc3 %>% 
-  select(site_no, RowSum, matches("^cover\\d+$"))
+  select(site_no, RowSum, matches("^cover\\d+$")) 
 
 
 # saving data -------------------------------------------------------------
 
-saveRDS(lc4, "data/land_cover_by_site_v1.rds")
+saveRDS(lc4, "data/land_cover_by_site_buf2_v1.rds")
