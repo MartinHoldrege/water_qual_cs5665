@@ -95,9 +95,25 @@ cor(all1_m_cover)
 cor(all1$result_va_m, all1$slope)
 cor(all1$result_va_m, all1$slope_3km)
 
-all2 <- all1_m_cover %>% 
+
+
+
+# train/test data ---------------------------------------------------------
+
+all2 <- all1_m_cover
+all2_scaled <- all1_m_cover %>% 
   mutate_at(vars(pred_vars),
             function(x) as.numeric(scale(x))) 
+
+
+n <- nrow(all2)
+vec <- 1:n
+train_rows <- sample(vec, size = 0.7*n)
+test_rows <- vec[!vec %in% train_rows]
+
+all2_train <- all2[train_rows, ]
+
+all2_test <- all2[test_rows, ]
 
 # correlations with response
 
@@ -131,7 +147,7 @@ for (class in cover_classes_3km) {
 # OLS regression ----------------------------------------------------------
 
 # issue with model fitting
-lm1 <- lm(result_va_m ~ ., data = all2)
+lm1 <- lm(result_va_m ~ ., data = all2_train)
 summary(lm1)
 
 
